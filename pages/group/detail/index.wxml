@@ -1,0 +1,138 @@
+<view class="layout-page">
+  <view wx:if="{{loading}}" class="layout-card detail-skeleton">
+    <view class="sk-line sk-title"></view>
+    <view class="sk-line sk-cell"></view>
+    <view class="sk-line sk-cell"></view>
+    <view class="sk-row">
+      <view class="sk-line sk-label"></view>
+      <view class="sk-line sk-value"></view>
+    </view>
+    <view class="sk-line sk-cell sk-cell--long"></view>
+    <view class="sk-line sk-cell"></view>
+    <view class="sk-line sk-subtitle"></view>
+    <view class="sk-member-grid">
+      <view class="sk-member-item" wx:for="{{[1,2,3,4,5]}}" wx:key="*this">
+        <view class="sk-member-avatar"></view>
+        <view class="sk-line sk-member-name"></view>
+      </view>
+    </view>
+    <view class="sk-line sk-cell"></view>
+    <view class="sk-block sk-gallery"></view>
+  </view>
+
+  <view wx:elif="{{group}}" class="layout-card">
+    <view class="layout-title">{{group.destination}}</view>
+    <view class="group-owner-card" bindtap="onMemberTap" data-user-id="{{group.userId}}" data-role="leader" data-nickname="{{leaderName}}">
+      <image class="group-owner-card__avatar" src="{{leaderAvatar || '/static/app_icon.png'}}" mode="aspectFill" />
+      <view class="group-owner-card__main">
+        <view class="group-owner-card__title">发起人信息</view>
+        <view class="group-owner-card__name">{{leaderName}}</view>
+      </view>
+      <view class="group-owner-card__action">查看资料</view>
+    </view>
+    <van-cell title="出发时间" value="{{departureDisplay}}" />
+    <van-cell title="截止时间" value="{{expireDisplay}}" />
+    <van-cell title="剩余时间">
+      <van-count-down wx:if="{{countdownTime > 0}}" time="{{countdownTime}}" format="DD天HH时mm分ss秒"
+        bind:finish="handleCountdownFinish" />
+      <text wx:elif="{{countdownEnded}}" class="countdown-ended">已截止</text>
+      <text wx:elif="{{countdownExpired}}" class="countdown-ended">已到截止时间</text>
+      <text wx:else class="countdown-ended">未设置</text>
+    </van-cell>
+    <van-cell title="行程" label="{{group.plan}}" />
+    <van-cell title="人数" value="{{group.joined}}/{{group.maxPeople}}" />
+    <van-cell wx:if="{{canViewContact}}" title="联系方式" value="{{group.contact || '未填写'}}" />
+    <van-cell wx:else title="联系方式" value="仅团长或团员可查看" />
+    <view class="member-section">
+     <van-cell title="拼团成员"></van-cell>
+
+      <view class="member-grid">
+        <view
+          wx:for="{{members}}"
+          wx:key="userId"
+          class="member-item {{group.isOwner && group.status === '招募中' && item.role !== 'leader' ? 'member-item--manageable' : ''}}"
+          bindtap="onMemberTap"
+          data-user-id="{{item.userId}}"
+          data-role="{{item.role}}"
+          data-nickname="{{item.displayName}}"
+        >
+          <image class="member-avatar" src="{{item.avatar || '/static/app_icon.png'}}" mode="aspectFill" />
+          <text class="member-name">{{item.displayName}}</text>
+          <van-tag wx:if="{{item.role === 'leader'}}" size="mini" type="primary" class="member-role-tag">发起人</van-tag>
+          <text wx:if="{{group.isOwner && group.status === '招募中' && item.role !== 'leader'}}" class="member-action-hint">点击管理</text>
+        </view>
+      </view>
+    </view>
+    <van-cell title="状态" value="{{group.status}}" />
+    <image-preview-gallery
+      images="{{group.images}}"
+      owner-name="{{leaderName}}"
+      owner-avatar="{{leaderAvatar}}"
+      meta-line="{{group.destination}} · {{departureDisplay}}"
+    />
+  </view>
+
+  <van-empty wx:else description="拼团不存在或已结束" />
+
+  <van-goods-action wx:if="{{group && ((!group.isOwner) || (group.isOwner && group.auditStatus === 'approved') || (group.isOwner && group.auditStatus === 'rejected'))}}">
+    <van-goods-action-icon wx:if="{{group.auditStatus === 'approved'}}" icon="share-o" text="分享" bind:click="openShareSheet" />
+    <van-goods-action-button
+      wx:if="{{group.isOwner && group.auditStatus === 'rejected'}}"
+      type="primary"
+      text="重新编辑"
+      bind:click="goEdit"
+    />
+    <van-goods-action-button
+      wx:elif="{{group.isOwner && group.auditStatus === 'approved'}}"
+      type="primary"
+      text="{{group.status === '招募中' ? '截止入团' : (group.status === '已截止' ? '已截止' : '已成团')}}"
+      disabled="{{group.status !== '招募中'}}"
+      bind:click="closeJoin"
+    />
+    <van-goods-action-button
+      wx:elif="{{!group.isOwner && group.canLeave}}"
+      type="warning"
+      text="退出拼团"
+      loading="{{leaveSubmitting}}"
+      disabled="{{leaveSubmitting}}"
+      bind:click="onLeaveGroup"
+    />
+    <van-goods-action-button
+      wx:else
+      type="primary"
+      text="申请入团"
+      loading="{{applying}}"
+      disabled="{{applying}}"
+      bind:click="applyJoin"
+    />
+  </van-goods-action>
+
+  <van-dialog show="{{showUserDialog}}" use-slot show-confirm-button="{{false}}" close-on-click-overlay bind:close="closeUserDialog">
+    <view class="user-dialog">
+      <view class="user-dialog__title">用户资料</view>
+      <view wx:if="{{userDialogLoading}}" class="user-dialog__loading">加载中...</view>
+      <view wx:elif="{{userProfile}}" class="user-dialog__content">
+        <image class="user-dialog__avatar" src="{{userProfile.avatar || '/static/app_icon.png'}}" mode="aspectFill" />
+        <view class="user-dialog__name">{{userProfile.nickname || '用户'}}</view>
+        <view class="user-dialog__meta">学校：{{userProfile.schoolText || '未填写'}}</view>
+        <view wx:if="{{userProfile.createdAt}}" class="user-dialog__meta">注册时间：{{userProfile.createdAt}}</view>
+      </view>
+      <view class="user-dialog__actions">
+        <van-button wx:if="{{userDialogCanKick}}" type="danger" plain block loading="{{managingMember}}" disabled="{{managingMember}}" bind:click="kickCurrentMember">移出该团员</van-button>
+        <van-button type="primary" block bind:click="closeUserDialog">关闭</van-button>
+      </view>
+    </view>
+  </van-dialog>
+
+  <van-share-sheet
+    show="{{showShareSheet}}"
+    title="分享拼团"
+    description="{{group ? ((group.destination || '拼团') + ' · 发起人 ' + (leaderName || '发起人')) : ''}}"
+    options="{{shareOptions}}"
+    bind:select="onShareSelect"
+    bind:close="closeShareSheet"
+  />
+
+  <van-dialog id="van-dialog" />
+  <app-footer />
+</view>

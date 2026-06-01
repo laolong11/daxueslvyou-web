@@ -1,0 +1,6 @@
+<view class="app-footer">
+  <image class="app-footer__icon" src="/static/app_icon.png" mode="aspectFill" />
+  <view class="app-footer__name">{{appName}}</view>
+  <view class="app-footer__meta">版本 v{{version}} · Build {{build}}</view>
+  <view class="app-footer__slogan">{{slogan}}</view>
+</view>

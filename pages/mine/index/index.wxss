@@ -1,0 +1,290 @@
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+
+.mine-skeleton-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.mine-skeleton-card {
+  pointer-events: none;
+}
+
+.sk-avatar,
+.sk-line {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 45%, #e2e8f0 65%);
+  background-size: 220% 100%;
+  animation: skShimmer 1.4s ease-in-out infinite;
+}
+
+.sk-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.sk-line {
+  height: 24rpx;
+  border-radius: 12rpx;
+  margin: 12rpx auto 0;
+}
+
+.sk-name {
+  width: 200rpx;
+  height: 34rpx;
+}
+
+.sk-btn {
+  width: 180rpx;
+  height: 56rpx;
+  border-radius: 999rpx;
+}
+
+.sk-row {
+  width: 88%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+}
+
+.profile-main {
+  flex: 1;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.school {
+  color: #64748b;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+}
+
+.btns {
+  margin-top: 14rpx;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.tabs-record-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.tabs-record-card .van-tabs {
+  background: #fff;
+}
+
+.tabs-record-card .van-tabs__content {
+  min-height: 620rpx;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 18%);
+}
+
+.mine-list-wrap {
+  padding: 18rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.mine-tab-skeleton {
+  padding: 18rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.mine-tab-skeleton--side {
+  padding: 0;
+}
+
+.mine-tab-skeleton-item {
+  border-radius: 14rpx;
+  border: 2rpx solid rgba(15, 118, 110, 0.08);
+  background: linear-gradient(135deg, #f8fafc, #ffffff);
+  padding: 16rpx;
+}
+
+.mine-tab-skeleton-line {
+  height: 24rpx;
+  border-radius: 12rpx;
+  margin-top: 10rpx;
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 45%, #e2e8f0 65%);
+  background-size: 220% 100%;
+  animation: skShimmer 1.2s ease-in-out infinite;
+}
+
+.mine-tab-skeleton-line--title {
+  width: 68%;
+  height: 30rpx;
+  margin-top: 0;
+}
+
+.mine-tab-skeleton-line--sub {
+  width: 92%;
+}
+
+.mine-tab-skeleton-line--sub.short {
+  width: 52%;
+}
+
+.mine-list-wrap--side {
+  padding: 0;
+}
+
+.mine-side-layout {
+  display: flex;
+  align-items: stretch;
+  gap: 16rpx;
+  padding: 18rpx;
+  min-height: 620rpx;
+  box-sizing: border-box;
+}
+
+.mine-side-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.mine-side-layout .van-sidebar {
+  flex-shrink: 0;
+  width: 142rpx;
+  border-radius: 14rpx;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.mine-side-layout .van-empty {
+  flex: 1;
+}
+
+.mine-list-card {
+  background: linear-gradient(135deg, #f8fafc, #ffffff);
+  border: 2rpx solid rgba(15, 118, 110, 0.09);
+  border-radius: 14rpx;
+  padding: 16rpx;
+}
+
+.mine-swipe-actions {
+  width: 176px;
+  height: 100%;
+  display: flex;
+}
+
+.mine-swipe-actions--single {
+  width: 88px;
+}
+
+.mine-pager {
+  margin-top: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
+}
+
+.mine-pager__text {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  font-size: 22rpx;
+  color: #64748b;
+}
+
+.mine-swipe-btn {
+  width: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 24rpx;
+}
+
+.mine-swipe-btn--edit {
+  background: #0ea5e9;
+}
+
+.mine-swipe-btn--delete {
+  background: #ef4444;
+}
+
+.mine-list-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10rpx;
+}
+
+.mine-list-title {
+  font-size: 29rpx;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.mine-list-tags {
+  display: flex;
+  gap: 8rpx;
+  flex-shrink: 0;
+}
+
+.mine-list-sub {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #0f766e;
+}
+
+.mine-list-desc {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.mine-list-remark {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #b45309;
+}
+
+.complete-card {
+  background: linear-gradient(135deg, #eff6ff, #f8fafc);
+  border: 2rpx solid rgba(37, 99, 235, 0.12);
+}
+
+.complete-card__title {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.complete-card__desc {
+  margin: 10rpx 0 18rpx;
+  font-size: 24rpx;
+  line-height: 1.7;
+  color: #475569;
+}
+
+@keyframes skShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}

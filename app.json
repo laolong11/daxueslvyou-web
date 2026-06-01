@@ -1,0 +1,121 @@
+{
+  "pages": [
+    "pages/loading/index",
+    "pages/index/index",
+    "pages/search/index",
+    "pages/auth/login/index",
+    "pages/legal/user-agreement/index",
+    "pages/legal/privacy-policy/index",
+    "pages/group/list/index",
+    "pages/guide/list/index",
+    "pages/mine/index/index",
+    "pages/group/publish/index",
+    "pages/group/edit/index",
+    "pages/group/detail/index",
+    "pages/guide/detail/index",
+    "pages/message/index/index",
+    "pages/mine/profile/index",
+    "pages/user/user",
+    "pages/guide/publish/index",
+    "pages/guide/edit/index",
+    "pages/add/add",
+    "components/message-fab/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "大学生旅游",
+    "navigationBarTextStyle": "black"
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "onLocationChange",
+    "startLocationUpdateBackground",
+    "chooseAddress"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序快速定位效果"
+    }
+  },
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "tabBar": {
+    "color": "#64748b",
+    "selectedColor": "#0f766e",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tabbar/tianchongzhuyehui.png",
+        "selectedIconPath": "static/tabbar/tianchongzhuye.png"
+      },
+      {
+        "pagePath": "pages/group/list/index",
+        "text": "拼团",
+        "iconPath": "static/tabbar/qunzuhui.png",
+        "selectedIconPath": "static/tabbar/qunzulan.png"
+      },
+      {
+        "pagePath": "pages/guide/list/index",
+        "text": "攻略",
+        "iconPath": "static/tabbar/wenzhanghui.png",
+        "selectedIconPath": "static/tabbar/wenzhanglan.png"
+      },
+      {
+        "pagePath": "pages/message/index/index",
+        "text": "消息",
+        "iconPath": "static/tabbar/xiaoxihui.png",
+        "selectedIconPath": "static/tabbar/xiaoxilan.png"
+      },
+      {
+        "pagePath": "pages/mine/index/index",
+        "text": "我的",
+        "iconPath": "static/tabbar/wodehui.png",
+        "selectedIconPath": "static/tabbar/wodelan.png"
+      }
+    ]
+  },
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-search": "@vant/weapp/search/index",
+    "van-skeleton": "@vant/weapp/skeleton/index",
+    "van-divider": "@vant/weapp/divider/index",
+    "van-count-down": "@vant/weapp/count-down/index",
+    "van-circle": "@vant/weapp/circle/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-empty": "@vant/weapp/empty/index",
+    "van-sticky": "@vant/weapp/sticky/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index",
+    "van-tag": "@vant/weapp/tag/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-tabs": "@vant/weapp/tabs/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-sidebar": "@vant/weapp/sidebar/index",
+    "van-sidebar-item": "@vant/weapp/sidebar-item/index",
+    "van-stepper": "@vant/weapp/stepper/index",
+    "van-calendar": "@vant/weapp/calendar/index",
+    "van-datetime-picker": "@vant/weapp/datetime-picker/index",
+    "van-area": "@vant/weapp/area/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-goods-action": "@vant/weapp/goods-action/index",
+    "van-goods-action-icon": "@vant/weapp/goods-action-icon/index",
+    "van-goods-action-button": "@vant/weapp/goods-action-button/index",
+    "van-share-sheet": "@vant/weapp/share-sheet/index",
+    "van-overlay": "@vant/weapp/overlay/index",
+    "van-popup": "@vant/weapp/popup/index",
+    "van-tree-select": "@vant/weapp/tree-select/index",
+    "auth-popup": "/components/AuthPopup/index",
+    "image-preview-gallery": "/components/image-preview-gallery/index",
+    "app-search": "/components/search/index",
+    "message-fab": "/components/message-fab/index",
+    "app-footer": "/components/app-footer/index",
+    "tabbar-publish-entry": "/components/tabbar-publish-entry/index"
+  }
+}

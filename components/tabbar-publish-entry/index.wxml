@@ -1,0 +1,3 @@
+<view class="tabbar-publish-entry" bindtap="goAddPage">
+  <image class="tabbar-publish-entry__icon" src="/static/tabbar/add.png" mode="aspectFit" />
+</view>

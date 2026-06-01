@@ -1,0 +1,138 @@
+/* pages/mine/profile/index.wxss */
+.profile-title {
+	font-size: 34rpx;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.profile-sub {
+	margin-top: 10rpx;
+	margin-bottom: 16rpx;
+	font-size: 24rpx;
+	line-height: 1.7;
+	color: #64748b;
+}
+
+.profile-editor {
+	margin-bottom: 24rpx;
+	display: flex;
+	align-items: center;
+	gap: 20rpx;
+}
+
+.profile-avatar-btn {
+	width: 108rpx;
+	height: 108rpx;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: transparent;
+	overflow: hidden;
+}
+
+.profile-avatar-btn::after {
+	border: none;
+}
+
+.profile-avatar {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	box-shadow: 0 10rpx 22rpx rgba(15, 23, 42, 0.12);
+}
+
+.profile-nickname-input {
+	flex: 1;
+	height: 80rpx;
+	line-height: 80rpx;
+	background: #f8fafc;
+	border-radius: 16rpx;
+	padding: 0 20rpx;
+	font-size: 28rpx;
+	color: #0f172a;
+}
+
+.profile-counter {
+	margin: -10rpx 0 18rpx;
+	font-size: 22rpx;
+	color: #94a3b8;
+	text-align: right;
+}
+
+.profile-school-wrap {
+	position: relative;
+	margin-bottom: 22rpx;
+}
+
+.profile-school-input {
+	height: 80rpx;
+	line-height: 80rpx;
+	background: #f8fafc;
+	border-radius: 16rpx;
+	padding: 0 20rpx;
+	font-size: 28rpx;
+	color: #0f172a;
+}
+
+.school-options {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 90rpx;
+	max-height: 360rpx;
+	overflow-y: auto;
+	background: #fff;
+	border: 2rpx solid rgba(15, 118, 110, 0.14);
+	border-radius: 16rpx;
+	box-shadow: 0 14rpx 28rpx rgba(15, 23, 42, 0.08);
+	z-index: 30;
+}
+
+.selected-school-card {
+	margin-top: 14rpx;
+	padding: 16rpx 18rpx;
+	border-radius: 16rpx;
+	background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(14, 165, 233, 0.04));
+	border: 2rpx solid rgba(15, 118, 110, 0.12);
+}
+
+.selected-school-card__title {
+	font-size: 26rpx;
+	font-weight: 600;
+	color: #0f172a;
+}
+
+.selected-school-card__meta {
+	margin-top: 6rpx;
+	font-size: 22rpx;
+	line-height: 1.6;
+	color: #64748b;
+}
+
+.school-option-item {
+	padding: 20rpx;
+	border-bottom: 1rpx solid #f1f5f9;
+}
+
+.school-option-item:last-child {
+	border-bottom: none;
+}
+
+.school-option-item__title {
+	font-size: 26rpx;
+	font-weight: 600;
+	color: #0f172a;
+}
+
+.school-option-item__meta {
+	margin-top: 6rpx;
+	font-size: 22rpx;
+	line-height: 1.5;
+	color: #64748b;
+}
+
+.profile-save-btn {
+	height: 88rpx;
+	line-height: 88rpx;
+	--van-button-border-radius: 999rpx;
+}

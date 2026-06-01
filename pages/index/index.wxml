@@ -1,0 +1,88 @@
+<view class="layout-page page-with-tabbar">
+  <app-search></app-search>
+
+  <view wx:if="{{latestNotice}}" class="layout-card notice-wrap">
+    <van-notice-bar
+      left-icon="volume-o"
+      color="#0f172a"
+      background="#ecfeff"
+      text="{{latestNotice.title}}：{{latestNotice.content}}"
+      speed="52"
+      scrollable
+      bind:click="onTapNotice"
+    />
+  </view>
+
+  <view wx:if="{{!loading && topBanners.length > 0}}" class="layout-card">
+    <view class="banner-title">热门推荐</view>
+    <swiper class="top-swiper" autoplay circular interval="3600" duration="400" indicator-dots>
+      <swiper-item wx:for="{{topBanners}}" wx:key="key">
+        <view class="top-slide" bindtap="goBannerDetail" data-type="{{item.type}}" data-id="{{item.id}}">
+          <image class="top-image" src="{{item.image}}" mode="aspectFill" />
+          <view class="top-mask">
+            <view class="top-destination">{{item.destination}}</view>
+            <view class="top-text">{{item.title}}</view>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+
+  <view wx:if="{{loading}}" class="skeleton-list">
+    <view class="layout-card skeleton-banner">
+      <view class="sk-line sk-banner-title"></view>
+      <view class="sk-block sk-banner-main"></view>
+    </view>
+    <view class="result-card skeleton-card" wx:for="{{skeletonItems}}" wx:key="index">
+      <view class="sk-block sk-thumb"></view>
+      <view class="sk-line sk-title"></view>
+      <view class="sk-line sk-desc"></view>
+      <view class="sk-row">
+        <view class="sk-line sk-countdown-label"></view>
+        <view class="sk-line sk-countdown-value"></view>
+      </view>
+      <view class="sk-line sk-meta"></view>
+    </view>
+  </view>
+
+  <view wx:else>
+    <view class="result-grid">
+      <view class="result-card" wx:for="{{resultCards}}" wx:key="key" bindtap="goDetail"
+        data-type="{{item.type}}" data-id="{{item.id}}">
+        <view wx:if="{{item.image}}" class="thumb-wrap">
+          <image class="home-thumb" src="{{item.image}}" mode="widthFix" />
+          <view wx:if="{{item.isOfficial}}" class="official-badge">官方</view>
+        </view>
+        <view class="card-title-row">
+          <view class="card-title">{{item.title}}</view>
+        </view>
+        <view class="card-desc">{{item.desc}}</view>
+        <view wx:if="{{item.type === 'group'}}" class="card-countdown">
+          <text class="card-countdown-label">拼团截止</text>
+          <van-count-down
+            wx:if="{{item.countdownTime > 0}}"
+            time="{{item.countdownTime}}"
+            format="DD天HH时mm分"
+            data-id="{{item.id}}"
+            bind:finish="handleCardCountdownFinish"
+          />
+          <text wx:else class="card-countdown-ended">已截止</text>
+        </view>
+        <view class="card-meta">{{item.meta}}</view>
+      </view>
+    </view>
+    <van-divider wx:if="{{!hasMore}}" contentPosition="center">没有了</van-divider>
+  </view>
+  <van-dialog id="van-dialog" />
+  <van-popup show="{{adDialogVisible}}" round position="center" custom-style="width:84%;padding:26rpx;" bind:close="closeAdDialog">
+    <view wx:if="{{latestAd}}" class="ad-dialog">
+      <view class="ad-dialog__title">{{latestAd.title}}</view>
+      <image class="ad-dialog__image" src="{{latestAd.image}}" mode="aspectFill" bindtap="previewAdImage" />
+      <view class="ad-dialog__content">{{latestAd.content}}</view>
+      <view class="ad-dialog__time" wx:if="{{latestAd.createdAt}}">发布时间：{{latestAd.createdAt}}</view>
+      <van-button type="primary" size="small" block bind:click="closeAdDialog">知道了</van-button>
+    </view>
+  </van-popup>
+  <tabbar-publish-entry />
+  <app-footer />
+</view>

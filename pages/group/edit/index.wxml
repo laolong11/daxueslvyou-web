@@ -1,0 +1,41 @@
+<page-meta page-style="{{showArea ? 'overflow: hidden;' : ''}}" />
+<view class="layout-page page-with-tabbar">
+  <view class="layout-card">
+    <van-cell is-link title="目的地" value="{{form.destination || '请选择省市区'}}" bind:click="openArea" />
+    <van-cell is-link title="出发日期" value="{{form.date || '请选择日期'}}" bind:click="openDate" />
+    <van-cell is-link title="出发时间" value="{{form.departureTime || '请选择时间'}}" bind:click="openDeparture" />
+    <van-cell is-link title="截止时间" value="{{form.expireAt || '请选择截止时间'}}" bind:click="openExpire" />
+    <van-cell title="人数">
+      <van-stepper theme="round" value="{{form.maxPeople}}" min="2" max="20" bind:change="onPeopleChange" />
+    </van-cell>
+    <van-field label="联系方式" maxlength="64" placeholder="例如 微信号 / QQ / 手机号" value="{{form.contact}}"
+      bind:input="onContactInput" />
+    <van-field label="行程" type="textarea" autosize maxlength="500" placeholder="请输入集合点、行程安排、费用说明" value="{{form.plan}}"
+      bind:input="onPlanInput" />
+    <view class="upload-row">
+      <view class="upload-label">拼团图片</view>
+      <van-uploader image-fit="aspectFill" file-list="{{fileList}}" multiple max-count="5" bind:after-read="onAfterRead"
+        bind:delete="onDelete" />
+    </view>
+
+
+  </view>
+  <van-popup show="{{showArea}}" position="bottom" bind:close="closeArea">
+    <van-area area-list="{{areaList}}" bind:confirm="onAreaConfirm" bind:cancel="closeArea" />
+  </van-popup>
+  <van-calendar show="{{showDate}}" min-date="{{minDate}}" max-date="{{maxDate}}" bind:close="closeDate"
+    bind:confirm="onDateConfirm" />
+  <van-popup show="{{showDeparture}}" position="bottom" bind:close="closeDeparture">
+    <van-datetime-picker type="time" value="{{departureValue}}" bind:confirm="onDepartureConfirm"
+      bind:cancel="closeDeparture" />
+  </van-popup>
+  <van-popup show="{{showExpire}}" position="bottom" bind:close="closeExpire">
+    <van-datetime-picker type="datetime" value="{{expireValue}}" min-date="{{expireMin}}" max-date="{{expireMax}}"
+      bind:confirm="onExpireConfirm" bind:cancel="closeExpire" />
+  </van-popup>
+  <van-goods-action>
+    <van-goods-action-button loading="{{saving}}" type="primary" text="保存并发布" disabled="{{saving}}"
+      bind:click="submit" />
+  </van-goods-action>
+  <app-footer />
+</view>

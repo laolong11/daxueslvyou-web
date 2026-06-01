@@ -1,0 +1,39 @@
+<view class="preview-page">
+  <view class="top-bar">
+    <view class="close-btn" bindtap="closePage">返回</view>
+    <view class="indicator" wx:if="{{images.length > 0}}">{{current + 1}} / {{images.length}}</view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-wrap">
+    <view class="preview-skeleton">
+      <view class="sk-block sk-image"></view>
+      <view class="sk-panel">
+        <view class="sk-avatar"></view>
+        <view class="sk-meta">
+          <view class="sk-line sk-name"></view>
+          <view class="sk-line sk-extra"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{images.length > 0}}" class="preview-content">
+    <swiper class="preview-swiper" current="{{current}}" bindchange="onSwiperChange">
+      <swiper-item wx:for="{{images}}" wx:key="*this">
+        <view class="slide-wrap">
+          <image class="preview-image" src="{{item}}" mode="aspectFit" />
+        </view>
+      </swiper-item>
+    </swiper>
+
+    <view class="publisher-panel">
+      <image class="publisher-avatar" src="{{publisher.avatar}}" mode="aspectFill" />
+      <view class="publisher-meta">
+        <view class="publisher-name">{{publisher.nickname}}</view>
+        <view class="publisher-extra">{{destination}} · {{departureDisplay}}</view>
+      </view>
+    </view>
+  </view>
+
+  <van-empty wx:else description="暂无可预览图片" />
+</view>

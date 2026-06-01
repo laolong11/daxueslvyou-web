@@ -1,0 +1,15 @@
+<van-popup show="{{show}}"  closeable position="bottom" bind:close="onCancel">
+  <view class="popup-wrap">
+    <view class="logo">
+      <image class="logo-image" src="/static/app_icon.png" mode="aspectFill" />
+    </view>
+    <view class="title">登录后可使用完整功能</view>
+    <view class="sub">游客模式仅支持浏览</view>
+    <view class="actions">
+      <!-- <van-button plain type="default" class="action" bind:click="onCancel">取消</van-button> -->
+      <van-button type="primary" class="action" bind:click="onLogin">去登录</van-button>
+    </view>
+  </view>
+</van-popup>
+
+

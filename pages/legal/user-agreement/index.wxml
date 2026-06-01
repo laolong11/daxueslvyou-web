@@ -1,0 +1,26 @@
+<view class="layout-page legal-page">
+  <view class="layout-card legal-card">
+    <view class="legal-title">用户协议</view>
+    <view class="legal-meta">生效日期：{{updatedAt}}</view>
+    <view class="legal-intro">请在使用本服务前认真阅读以下条款，继续使用即视为你已理解并同意本协议。</view>
+
+    <view class="legal-section-title">1. 服务说明</view>
+    <view class="legal-text">本小程序为用户提供拼团出行与攻略分享服务。用户应遵守法律法规，文明发布内容。</view>
+
+    <view class="legal-section-title">2. 账号与信息</view>
+    <view class="legal-text">用户登录后可完善头像、昵称等资料。用户应保证所填信息真实、合法，不得冒用他人身份。</view>
+
+    <view class="legal-section-title">3. 内容规范</view>
+    <view class="legal-text">禁止发布违法违规、侵权、虚假、诈骗、骚扰等内容。平台有权对违规内容进行删除或限制处理。</view>
+
+    <view class="legal-section-title">4. 免责声明</view>
+    <view class="legal-text">拼团与出行活动由用户自主组织和参与，平台不对线下行为承担保证责任，请用户注意出行安全。</view>
+
+    <view class="legal-section-title">5. 协议变更</view>
+    <view class="legal-text">平台可根据业务调整更新协议内容，更新后在页面公示并自公示日起生效。</view>
+
+    <view class="legal-footnote">如你对条款有疑问，可通过平台反馈渠道联系管理员。</view>
+  </view>
+
+  <app-footer />
+</view>

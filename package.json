@@ -1,0 +1,17 @@
+{
+  "name": "daxueslvyou",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@vant/area-data": "^2.1.0",
+    "@vant/weapp": "^1.11.7"
+  }
+}

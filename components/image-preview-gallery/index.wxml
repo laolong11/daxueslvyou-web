@@ -1,0 +1,32 @@
+<view wx:if="{{images && images.length > 0}}" class="cover-list">
+  <swiper class="cover-swiper" circular="{{false}}" autoplay="{{false}}" indicator-dots="{{images.length > 1}}">
+    <swiper-item wx:for="{{images}}" wx:key="*this">
+      <view class="cover-slide">
+        <image class="cover" src="{{item}}" mode="aspectFit" data-index="{{index}}" bindtap="openPreview" />
+      </view>
+    </swiper-item>
+  </swiper>
+</view>
+
+<van-overlay show="{{previewVisible && images && images.length > 0}}" z-index="999" custom-style="background: rgba(2, 6, 23, 0.9);" bind:click="closePreview">
+  <view class="preview-wrap" catchtap="stopBubble" catchtouchmove="preventTouchMove">
+    <view class="preview-top">
+      <view class="preview-close" bindtap="closePreview">关闭</view>
+      <view class="preview-count">{{previewIndex + 1}} / {{images.length}}</view>
+    </view>
+    <swiper class="preview-swiper" current="{{previewIndex}}" bindchange="onPreviewChange">
+      <swiper-item wx:for="{{images}}" wx:key="*this">
+        <view class="preview-slide">
+          <image class="preview-image" src="{{item}}" mode="aspectFit" />
+        </view>
+      </swiper-item>
+    </swiper>
+    <view class="preview-meta">
+      <image class="preview-avatar" src="{{ownerAvatar || '/static/app_icon.png'}}" mode="aspectFill" />
+      <view class="preview-text">
+        <view class="preview-name">{{ownerName || '发布者'}}</view>
+        <view class="preview-line">{{metaLine}}</view>
+      </view>
+    </view>
+  </view>
+</van-overlay>

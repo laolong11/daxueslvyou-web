@@ -1,0 +1,47 @@
+<view class="layout-page page-with-tabbar">
+  <view class="layout-card nav-row">
+    <view class="nav-title">消息中心</view>
+    <view class="nav-bell">
+      <van-icon name="bell" />
+      <van-tag wx:if="{{unread > 0}}" type="danger">{{unread}}</van-tag>
+    </view>
+  </view>
+
+  <view class="layout-card">
+    <van-button size="small" type="{{filter === 'all' ? 'primary' : 'default'}}" bind:click="setFilterAll">全部</van-button>
+    <van-button size="small" type="{{filter === 'audit' ? 'primary' : 'default'}}" bind:click="setFilterAudit">审核消息</van-button>
+    <van-button size="small" type="{{filter === 'other' ? 'primary' : 'default'}}" bind:click="setFilterOther">其他消息</van-button>
+    <van-button size="small" type="{{filter === 'system' ? 'primary' : 'default'}}" bind:click="setFilterSystem">系统通知</van-button>
+  </view>
+
+  <view wx:if="{{loading}}" class="skeleton-list">
+    <view class="layout-card skeleton-card" wx:for="{{[1,2,3]}}" wx:key="*this">
+      <view class="sk-row">
+        <view class="sk-line sk-title"></view>
+        <view class="sk-pill"></view>
+      </view>
+      <view class="sk-line sk-desc"></view>
+      <view class="sk-line sk-desc sk-desc--short"></view>
+    </view>
+  </view>
+
+  <view wx:else>
+    <van-empty wx:if="{{displayList.length === 0}}" description="暂无消息通知" />
+    <view wx:for="{{displayList}}" wx:key="id" class="layout-card" bindtap="markRead" data-item="{{item}}">
+      <view class="row">
+        <view class="title">{{item.title}}</view>
+        <view class="tag-row">
+          <van-tag plain type="primary">{{item.category === 'audit' ? '审核' : (item.category === 'system' ? '系统' : '其他')}}</van-tag>
+          <van-tag type="{{item.read ? 'default' : 'danger'}}">{{item.read ? '已读' : '未读'}}</van-tag>
+        </view>
+      </view>
+      <view class="desc">{{item.content}}</view>
+      <view class="desc" wx:if="{{item.createdAtText}}">发布时间：{{item.createdAtText}}</view>
+    </view>
+  </view>
+
+  <van-dialog id="van-dialog" />
+  <tabbar-publish-entry />
+  <app-footer />
+  <auth-popup show="{{showAuthPopup}}" bind:login="goLogin" bind:cancel="goBack" />
+</view>

@@ -1,0 +1,26 @@
+<view class="layout-page legal-page">
+  <view class="layout-card legal-card">
+    <view class="legal-title">隐私协议</view>
+    <view class="legal-meta">生效日期：{{updatedAt}}</view>
+    <view class="legal-intro">我们重视你的个人信息安全，以下内容说明我们如何收集、使用与保护你的信息。</view>
+
+    <view class="legal-section-title">1. 信息收集</view>
+    <view class="legal-text">为提供基础服务，我们会收集账号标识、昵称头像、内容发布数据及必要的设备网络信息。</view>
+
+    <view class="legal-section-title">2. 信息使用</view>
+    <view class="legal-text">收集的信息仅用于登录鉴权、内容展示、消息通知、问题排查与服务优化，不会用于未经授权的用途。</view>
+
+    <view class="legal-section-title">3. 信息存储与保护</view>
+    <view class="legal-text">我们采取合理安全措施保护用户信息，防止数据泄露、篡改或丢失，并在必要范围内保存数据。</view>
+
+    <view class="legal-section-title">4. 第三方服务</view>
+    <view class="legal-text">图片上传可能使用对象存储服务，相关数据处理遵循服务提供方安全规范与法律要求。</view>
+
+    <view class="legal-section-title">5. 用户权利</view>
+    <view class="legal-text">用户可在个人中心查看和修改个人资料。如有疑问或投诉，可通过平台反馈渠道联系我们。</view>
+
+    <view class="legal-footnote">若政策更新，我们会在页面公示更新后的版本与生效时间。</view>
+  </view>
+
+  <app-footer />
+</view>

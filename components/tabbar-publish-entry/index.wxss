@@ -1,0 +1,19 @@
+.tabbar-publish-entry {
+  position: fixed;
+  right: 20rpx;
+  bottom: 20rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 58rpx;
+  background: #494949af;
+  box-shadow: 0 16rpx 34rpx rgba(15, 23, 42, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+}
+
+.tabbar-publish-entry__icon {
+  width: 86rpx;
+  height: 86rpx;
+}

@@ -1,0 +1,55 @@
+.loading-page {
+  min-height: 100vh;
+  padding: 80rpx 32rpx 40rpx;
+  background: radial-gradient(circle at top, #dbeafe 0, #eff6ff 34%, #f8fafc 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.loading-card {
+  margin-top: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loading-circle-wrap {
+  position: relative;
+  width: 248rpx;
+  height: 248rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-icon {
+  position: absolute;
+  width: 92rpx;
+  height: 92rpx;
+  border-radius: 24rpx;
+  box-shadow: 0 10rpx 24rpx rgba(37, 99, 235, 0.18);
+}
+
+.loading-title {
+  margin-top: 30rpx;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.loading-badge {
+  margin-top: 12rpx;
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  background: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+  font-size: 22rpx;
+}
+
+.loading-sub {
+  margin-top: 12rpx;
+  font-size: 25rpx;
+  color: #64748b;
+}

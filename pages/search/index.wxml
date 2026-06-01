@@ -1,0 +1,60 @@
+<view class="layout-page page-with-tabbar search-page">
+  <view class="layout-card">
+    <van-sticky offset-top="{{ -1 }}">
+      <van-search placeholder="搜索拼团/攻略" clearable value="{{keyword}}" bind:search="onSearch" bind:clear="onSearch"
+        bind:input="onInputChange" />
+    </van-sticky>
+  </view>
+
+  <view class="layout-title">
+    <text wx:if="{{keyword}}">搜索结果：{{keyword}}</text>
+    <text wx:else>推荐内容（按热度）：</text>
+  </view>
+
+  <view wx:if="{{loading}}" class="skeleton-list">
+    <view class="layout-card skeleton-card" wx:for="{{skeletonItems}}" wx:key="index">
+      <view class="sk-block sk-thumb"></view>
+      <view class="sk-line sk-title"></view>
+      <view class="sk-line sk-desc"></view>
+      <view class="sk-row">
+        <view class="sk-line sk-countdown-label"></view>
+        <view class="sk-line sk-countdown-value"></view>
+      </view>
+      <view class="sk-line sk-meta"></view>
+    </view>
+  </view>
+
+  <view wx:elif="{{resultCards.length}}" class="result-grid">
+    <view class="result-card" wx:for="{{resultCards}}" wx:key="key" bindtap="goDetail" data-id="{{item.id}}"
+      data-type="{{item.type}}">
+      <view wx:if="{{item.image}}" class="thumb-wrap">
+        <image class="home-thumb" src="{{item.image}}" mode="widthFix" />
+        <view wx:if="{{item.isOfficial}}" class="official-badge">官方</view>
+      </view>
+      <view class="card-title-row">
+        <view class="card-title">{{item.title}}</view>
+      </view>
+      <view class="card-desc">{{item.desc}}</view>
+      <view wx:if="{{item.type === 'group'}}" class="card-countdown">
+        <text class="card-countdown-label">拼团截止</text>
+        <van-count-down
+          wx:if="{{item.countdownTime > 0}}"
+          time="{{item.countdownTime}}"
+          format="DD天HH时mm分"
+          data-id="{{item.id}}"
+          bind:finish="handleCardCountdownFinish"
+        />
+        <text wx:else class="card-countdown-ended">已截止</text>
+      </view>
+      <view class="card-meta">{{item.meta}}</view>
+    </view>
+  </view>
+
+  <view wx:else class="empty-state">
+    <van-empty image="search" description="未找到相关内容，换个关键词试试" />
+  </view>
+
+  <van-divider wx:if="{{!hasMore && resultCards.length}}" contentPosition="center">没有更多结果</van-divider>
+
+  <app-footer />
+</view>

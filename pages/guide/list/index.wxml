@@ -1,0 +1,80 @@
+<page-meta page-style="{{ showTreeSelect ? 'overflow: hidden;' : '' }}" />
+<view class="layout-page page-with-tabbar">
+ <app-search></app-search>
+  <view class="layout-card">
+    <van-cell title="目的地分类" value="{{filterLabel}}" is-link bind:click="openTreeSelect" />
+  </view>
+
+  <van-popup
+    show="{{showTreeSelect}}"
+    position="left"
+    overlay="{{true}}"
+    lock-scroll="{{true}}"
+    close-on-click-overlay="{{true}}"
+    bind:click-overlay="closeTreeSelect"
+    overlay-style="background: rgba(15, 23, 42, 0.25);"
+    custom-style="width: 78%; height: 100%; background: #ffffff;"
+    bind:close="closeTreeSelect"
+  >
+    <view class="tree-select-popup">
+      <view class="tree-select-popup__header">目的地分类</view>
+      <view class="tree-select-popup__body">
+        <view
+          class="tree-select-all {{filterLabel === '全部' ? 'tree-select-all--active' : ''}}"
+          bindtap="clearTreeSelect"
+        >
+          全部
+        </view>
+        <view class="tree-select-main">
+          <van-tree-select
+            items="{{treeItems}}"
+            main-active-index="{{mainActiveIndex}}"
+            active-id="{{activeIds}}"
+            bind:click-nav="handleTreeNavClick"
+            bind:click-item="handleTreeItemClick"
+            height="100%"
+          />
+        </view>
+      </view>
+    </view>
+  </van-popup>
+
+  <view wx:if="{{loading}}" class="skeleton-list">
+    <view class="layout-card skeleton-card" wx:for="{{skeletonItems}}" wx:key="index">
+      <view class="sk-block sk-thumb"></view>
+      <view class="sk-line sk-title"></view>
+      <view class="sk-line sk-desc"></view>
+      <view class="sk-line sk-meta"></view>
+      <view class="sk-line sk-meta sk-meta--short"></view>
+    </view>
+  </view>
+
+  <view wx:else>
+    <van-empty wx:if="{{guides.length === 0}}" description="暂无攻略，去分享一篇吧" />
+    <view wx:if="{{guides.length > 0}}">
+      <view class="result-grid">
+        <view wx:for="{{guides}}" wx:key="id" class="result-card" bindtap="toDetail" data-id="{{item.id}}">
+          <view wx:if="{{item.images && item.images[0]}}" class="thumb-wrap">
+            <image
+              class="list-thumb"
+              src="{{item.images[0]}}"
+              mode="widthFix"
+            />
+            <view wx:if="{{item.isOfficial}}" class="official-badge">官方</view>
+          </view>
+          <view class="guide-title-row">
+            <view class="title">{{item.title}}</view>
+          </view>
+          <view class="desc">{{item.summary}}</view>
+          <view class="meta">{{item.destination}}</view>
+          <view class="meta">{{item.route}}</view>
+        </view>
+      </view>
+    </view>
+    <van-divider wx:if="{{!hasMore}}" contentPosition="center">没有更多攻略了</van-divider>
+  </view>
+
+  <tabbar-publish-entry />
+  <app-footer />
+  <auth-popup show="{{showAuthPopup}}" bind:login="handleLogin" bind:cancel="handlePopupClose" />
+</view>

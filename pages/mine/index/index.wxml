@@ -1,0 +1,229 @@
+<view class="layout-page page-with-tabbar">
+  <view wx:if="{{loading}}" class="mine-skeleton-wrap">
+    <view class="layout-card mine-skeleton-card">
+      <view class="sk-avatar"></view>
+      <view class="sk-line sk-name"></view>
+      <view class="sk-line sk-btn"></view>
+    </view>
+    <view class="layout-card mine-skeleton-card">
+      <view class="sk-line sk-row"></view>
+      <view class="sk-line sk-row"></view>
+      <view class="sk-line sk-row"></view>
+      <view class="sk-line sk-row"></view>
+      <view class="sk-line sk-row"></view>
+    </view>
+  </view>
+  <view wx:else>
+    <view class="layout-card profile-card">
+      <image class="avatar" mode="aspectFill" src="{{user.avatar || '/static/app_icon.png'}}" />
+      <view class="profile-main">
+        <view class="name">{{isAuthed ? (user.nickname || '游客') : '未登录'}}</view>
+        <view class="school">{{isAuthed ? (user.schoolText ? ('学校：' + user.schoolText) : '学校：未选择') : '登录后可查看发布数据'}}</view>
+        <view class="btns">
+          <van-button wx:if="{{isAuthed}}" size="small" type="primary" bind:click="goProfile">编辑资料</van-button>
+          <van-button wx:else size="small" type="info" bind:click="goLogin">去登录</van-button>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{isAuthed && needsProfileCompletion}}" class="layout-card complete-card">
+      <view class="complete-card__title">资料待完善</view>
+      <view class="complete-card__desc">建议完善头像、昵称和学校信息，方便其他同学识别你</view>
+      <van-button size="small" type="info" bind:click="goProfile">去完善资料</van-button>
+    </view>
+
+    <view wx:if="{{isAuthed}}" class="layout-card tabs-record-card">
+      <van-tabs active="{{activeRecordTab}}" color="#0f766e" line-width="44" animated="{{false}}" swipeable="{{false}}" lazy-render="{{false}}" bind:change="onRecordTabChange">
+        <van-tab title="拼团">
+          <view class="mine-side-layout">
+            <van-sidebar active-key="{{groupStatusTab}}" bind:change="onGroupStatusTabChange">
+              <van-sidebar-item title="全部" />
+              <van-sidebar-item title="已发布" />
+              <van-sidebar-item title="审核中" />
+              <van-sidebar-item title="已驳回" />
+            </van-sidebar>
+            <view class="mine-side-content">
+              <view wx:if="{{recordLoading || groupStatusLoading}}" class="mine-tab-skeleton mine-tab-skeleton--side">
+                <view class="mine-tab-skeleton-item">
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--title"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub short"></view>
+                </view>
+                <view class="mine-tab-skeleton-item">
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--title"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub short"></view>
+                </view>
+              </view>
+              <view wx:elif="{{groupList.length > 0}}" class="mine-list-wrap mine-list-wrap--side">
+                <van-swipe-cell wx:for="{{groupList}}" wx:key="id" right-width="{{item.auditStatus === 'pending' ? 0 : 176}}">
+                  <view class="mine-list-card" bindtap="goGroupDetail" data-id="{{item.id}}">
+                    <view class="mine-list-title-row">
+                      <view class="mine-list-title">{{item.destination}}</view>
+                      <view class="mine-list-tags">
+                        <van-tag type="{{item.auditStatus === 'approved' ? 'success' : (item.auditStatus === 'pending' ? 'warning' : 'danger')}}">{{item.auditStatusText}}</van-tag>
+                      </view>
+                    </view>
+                    <view class="mine-list-sub">{{item.date}} {{item.departureTime}} · {{item.joined}}/{{item.maxPeople}}人</view>
+                    <view class="mine-list-sub">发布时间：{{item.createdAt}}</view>
+                    <view class="mine-list-desc">{{item.plan}}</view>
+                    <view wx:if="{{item.auditRemark}}" class="mine-list-remark">原因：{{item.auditRemark}}</view>
+                  </view>
+                  <view wx:if="{{item.auditStatus !== 'pending'}}" slot="right" class="mine-swipe-actions">
+                    <view class="mine-swipe-btn mine-swipe-btn--edit" catchtap="editGroup" data-id="{{item.id}}" data-audit-status="{{item.auditStatus}}">编辑</view>
+                    <view class="mine-swipe-btn mine-swipe-btn--delete" catchtap="deleteGroup" data-id="{{item.id}}" data-audit-status="{{item.auditStatus}}" data-status="{{item.status}}">删除</view>
+                  </view>
+                </van-swipe-cell>
+              </view>
+              <van-empty wx:else description="暂无拼团记录" />
+              <view wx:if="{{groupTotal > groupPageSize}}" class="mine-pager">
+                <van-button size="small" plain type="primary" disabled="{{groupPage <= 1 || groupStatusLoading || recordLoading}}" bind:click="onGroupPrevPage">上一页</van-button>
+                <text class="mine-pager__text">第{{groupPage}}页 · 共{{groupTotal}}条</text>
+                <van-button size="small" plain type="primary" disabled="{{groupPage * groupPageSize >= groupTotal || groupStatusLoading || recordLoading}}" bind:click="onGroupNextPage">下一页</van-button>
+              </view>
+            </view>
+          </view>
+        </van-tab>
+        <van-tab title="攻略">
+          <view class="mine-side-layout">
+            <van-sidebar active-key="{{guideStatusTab}}" bind:change="onGuideStatusTabChange">
+              <van-sidebar-item title="全部" />
+              <van-sidebar-item title="已发布" />
+              <van-sidebar-item title="审核中" />
+              <van-sidebar-item title="已驳回" />
+            </van-sidebar>
+            <view class="mine-side-content">
+              <view wx:if="{{recordLoading || guideStatusLoading}}" class="mine-tab-skeleton mine-tab-skeleton--side">
+                <view class="mine-tab-skeleton-item">
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--title"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub short"></view>
+                </view>
+                <view class="mine-tab-skeleton-item">
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--title"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub short"></view>
+                </view>
+              </view>
+              <view wx:elif="{{guideList.length > 0}}" class="mine-list-wrap mine-list-wrap--side">
+                <van-swipe-cell wx:for="{{guideList}}" wx:key="id" right-width="{{item.auditStatus === 'pending' ? 0 : 176}}">
+                  <view class="mine-list-card" bindtap="goGuideDetail" data-id="{{item.id}}">
+                    <view class="mine-list-title-row">
+                      <view class="mine-list-title">{{item.title}}</view>
+                      <view class="mine-list-tags">
+                        <van-tag type="{{item.auditStatus === 'approved' ? 'success' : (item.auditStatus === 'pending' ? 'warning' : 'danger')}}">{{item.auditStatusText}}</van-tag>
+                      </view>
+                    </view>
+                    <view class="mine-list-sub">{{item.destination}} · 👍{{item.likes}} · 收藏{{item.favorites}}</view>
+                    <view class="mine-list-sub">发布时间：{{item.createdAt}}</view>
+                    <view class="mine-list-desc">{{item.summary}}</view>
+                    <view wx:if="{{item.auditRemark}}" class="mine-list-remark">原因：{{item.auditRemark}}</view>
+                  </view>
+                  <view wx:if="{{item.auditStatus !== 'pending'}}" slot="right" class="mine-swipe-actions">
+                    <view class="mine-swipe-btn mine-swipe-btn--edit" catchtap="editGuide" data-id="{{item.id}}" data-audit-status="{{item.auditStatus}}">编辑</view>
+                    <view class="mine-swipe-btn mine-swipe-btn--delete" catchtap="deleteGuide" data-id="{{item.id}}" data-audit-status="{{item.auditStatus}}">删除</view>
+                  </view>
+                </van-swipe-cell>
+              </view>
+              <van-empty wx:else description="暂无攻略记录" />
+              <view wx:if="{{guideTotal > guidePageSize}}" class="mine-pager">
+                <van-button size="small" plain type="primary" disabled="{{guidePage <= 1 || guideStatusLoading || recordLoading}}" bind:click="onGuidePrevPage">上一页</van-button>
+                <text class="mine-pager__text">第{{guidePage}}页 · 共{{guideTotal}}条</text>
+                <van-button size="small" plain type="primary" disabled="{{guidePage * guidePageSize >= guideTotal || guideStatusLoading || recordLoading}}" bind:click="onGuideNextPage">下一页</van-button>
+              </view>
+            </view>
+          </view>
+        </van-tab>
+        <van-tab title="收藏">
+          <view wx:if="{{recordLoading}}" class="mine-tab-skeleton">
+            <view class="mine-tab-skeleton-item">
+              <view class="mine-tab-skeleton-line mine-tab-skeleton-line--title"></view>
+              <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub"></view>
+              <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub short"></view>
+            </view>
+            <view class="mine-tab-skeleton-item">
+              <view class="mine-tab-skeleton-line mine-tab-skeleton-line--title"></view>
+              <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub"></view>
+              <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub short"></view>
+            </view>
+          </view>
+          <view wx:elif="{{favoriteGuideList.length > 0}}" class="mine-list-wrap">
+            <view wx:for="{{favoriteGuideList}}" wx:key="id" class="mine-list-card" bindtap="goFavoriteGuideDetail" data-id="{{item.id}}">
+              <view class="mine-list-title-row">
+                <view class="mine-list-title">{{item.title}}</view>
+                <view class="mine-list-tags">
+                  <van-tag type="primary">已收藏</van-tag>
+                </view>
+              </view>
+              <view class="mine-list-sub">{{item.destination}} · 👍{{item.likes}} · 收藏{{item.favorites}}</view>
+              <view class="mine-list-sub">收藏时间：{{item.favoritedAt}}</view>
+              <view class="mine-list-desc">{{item.summary}}</view>
+            </view>
+          </view>
+          <van-empty wx:else description="暂无收藏攻略" />
+          <view wx:if="{{favoriteTotal > favoritePageSize}}" class="mine-pager">
+            <van-button size="small" plain type="primary" disabled="{{favoritePage <= 1 || recordLoading}}" bind:click="onFavoritePrevPage">上一页</van-button>
+            <text class="mine-pager__text">第{{favoritePage}}页 · 共{{favoriteTotal}}条</text>
+            <van-button size="small" plain type="primary" disabled="{{favoritePage * favoritePageSize >= favoriteTotal || recordLoading}}" bind:click="onFavoriteNextPage">下一页</van-button>
+          </view>
+        </van-tab>
+        <van-tab title="我参与">
+          <view class="mine-side-layout">
+            <van-sidebar active-key="{{joinedStatusTab}}" bind:change="onJoinedStatusTabChange">
+              <van-sidebar-item title="全部" />
+              <van-sidebar-item title="招募中" />
+              <van-sidebar-item title="已截止" />
+              <van-sidebar-item title="已成团" />
+            </van-sidebar>
+            <view class="mine-side-content">
+              <view wx:if="{{recordLoading || joinedStatusLoading}}" class="mine-tab-skeleton mine-tab-skeleton--side">
+                <view class="mine-tab-skeleton-item">
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--title"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub short"></view>
+                </view>
+                <view class="mine-tab-skeleton-item">
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--title"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub"></view>
+                  <view class="mine-tab-skeleton-line mine-tab-skeleton-line--sub short"></view>
+                </view>
+              </view>
+              <view wx:elif="{{joinedGroupDisplayList.length > 0}}" class="mine-list-wrap mine-list-wrap--side">
+                <van-swipe-cell wx:for="{{joinedGroupDisplayList}}" wx:key="id" right-width="{{item.canQuit ? 88 : 0}}">
+                  <view class="mine-list-card" bindtap="goJoinedGroupDetail" data-id="{{item.id}}">
+                    <view class="mine-list-title-row">
+                      <view class="mine-list-title">{{item.destination}}</view>
+                      <view class="mine-list-tags">
+                        <van-tag type="{{item.status === '招募中' ? 'success' : 'warning'}}">{{item.status}}</van-tag>
+                      </view>
+                    </view>
+                    <view class="mine-list-sub">{{item.date}} {{item.departureTime}} · {{item.joined}}/{{item.maxPeople}}人</view>
+                    <view class="mine-list-sub">团长：{{item.leaderName}} · 入团时间：{{item.joinedAt}}</view>
+                    <view class="mine-list-desc">{{item.plan}}</view>
+                  </view>
+                  <view wx:if="{{item.canQuit}}" slot="right" class="mine-swipe-actions mine-swipe-actions--single">
+                    <view class="mine-swipe-btn mine-swipe-btn--delete" catchtap="leaveJoinedGroup" data-id="{{item.id}}" data-can-quit="{{item.canQuit}}">退团</view>
+                  </view>
+                </van-swipe-cell>
+              </view>
+              <van-empty wx:else description="当前筛选暂无参与拼团" />
+              <view wx:if="{{joinedTotal > joinedPageSize}}" class="mine-pager">
+                <van-button size="small" plain type="primary" disabled="{{joinedPage <= 1 || joinedStatusLoading || recordLoading}}" bind:click="onJoinedPrevPage">上一页</van-button>
+                <text class="mine-pager__text">第{{joinedPage}}页 · 共{{joinedTotal}}条</text>
+                <van-button size="small" plain type="primary" disabled="{{joinedPage * joinedPageSize >= joinedTotal || joinedStatusLoading || recordLoading}}" bind:click="onJoinedNextPage">下一页</van-button>
+              </view>
+            </view>
+          </view>
+        </van-tab>
+      </van-tabs>
+    </view>
+    <view wx:else class="layout-card">
+      <van-empty description="登录后查看你的拼团和攻略列表" />
+    </view>
+  </view>
+
+  <tabbar-publish-entry />
+  <app-footer />
+  <van-dialog id="van-dialog" />
+  <auth-popup show="{{showAuthPopup}}" bind:login="handleLogin" bind:cancel="handlePopupClose" />
+</view>

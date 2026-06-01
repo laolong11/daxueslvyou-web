@@ -1,0 +1,71 @@
+<view class="layout-page">
+  <view wx:if="{{loading}}" class="layout-card detail-skeleton">
+    <view class="sk-block sk-gallery"></view>
+    <view class="sk-line sk-title"></view>
+    <view class="sk-line sk-cell"></view>
+    <view class="sk-line sk-cell sk-cell--long"></view>
+    <view class="sk-line sk-cell sk-cell--long"></view>
+  </view>
+  <view wx:elif="{{guide}}" class="layout-card">
+    <image-preview-gallery
+      images="{{guide.images}}"
+      owner-name="{{guide.authorName || '攻略发布者'}}"
+      owner-avatar="{{guide.authorAvatar || '/static/app_icon.png'}}"
+      meta-line="{{guide.destination}} · {{guide.title}}"
+    />
+    <view class="layout-title">{{guide.title}}</view>
+    <view class="author-card" bindtap="openAuthorProfile">
+      <image class="author-card__avatar" src="{{guide.authorAvatar || '/static/app_icon.png'}}" mode="aspectFill" />
+      <view class="author-card__main">
+        <view class="author-card__title">发布者信息</view>
+        <view class="author-card__name">{{guide.authorName || '攻略发布者'}}</view>
+      </view>
+      <view class="author-card__action">查看资料</view>
+    </view>
+    <van-cell title="目的地" value="{{guide.destination}}" />
+    <van-cell title="路线" label="{{guide.route}}" />
+    <van-cell title="内容" label="{{guide.summary}}" />
+  </view>
+  <van-empty wx:else description="攻略不存在或已下架" />
+
+  <van-goods-action wx:if="{{guide && guide.auditStatus === 'approved'}}">
+    <van-goods-action-icon icon="share-o" text="分享" bind:click="openShareSheet" />
+    <van-goods-action-button
+      type="{{guide.liked ? 'danger' : 'warning'}}"
+      text="点赞 {{guide.likes}}"
+      disabled="{{guide.isOwner}}"
+      bind:click="like"
+    />
+    <van-goods-action-button
+      type="{{guide.favored ? 'primary' : 'info'}}"
+      text="收藏 {{guide.favorites}}"
+      disabled="{{guide.isOwner}}"
+      bind:click="favorite"
+    />
+  </van-goods-action>
+
+  <van-dialog show="{{showUserDialog}}" use-slot show-confirm-button="{{false}}" close-on-click-overlay bind:close="closeUserDialog">
+    <view class="user-dialog">
+      <view class="user-dialog__title">用户资料</view>
+      <view wx:if="{{userDialogLoading}}" class="user-dialog__loading">加载中...</view>
+      <view wx:elif="{{userProfile}}" class="user-dialog__content">
+        <image class="user-dialog__avatar" src="{{userProfile.avatar || '/static/app_icon.png'}}" mode="aspectFill" />
+        <view class="user-dialog__name">{{userProfile.nickname || '用户'}}</view>
+        <view class="user-dialog__meta">学校：{{userProfile.schoolText || '未填写'}}</view>
+        <view wx:if="{{userProfile.createdAt}}" class="user-dialog__meta">注册时间：{{userProfile.createdAt}}</view>
+      </view>
+      <van-button type="primary" block bind:click="closeUserDialog">知道了</van-button>
+    </view>
+  </van-dialog>
+
+  <van-share-sheet
+    show="{{showShareSheet}}"
+    title="分享攻略"
+    description="{{guide ? ('《' + guide.title + '》 · 发布者 ' + (guide.authorName || '攻略发布者')) : ''}}"
+    options="{{shareOptions}}"
+    bind:select="onShareSelect"
+    bind:close="closeShareSheet"
+  />
+
+  <app-footer />
+</view>

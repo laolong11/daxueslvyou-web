@@ -1,0 +1,59 @@
+<view class="layout-page">
+  <view class="layout-card">
+    <view class="profile-title">编辑个人资料</view>
+    <view class="profile-sub">头像和昵称将展示在拼团成员与攻略发布信息中，选择头像后需点击保存才会正式上传</view>
+    <view class="profile-editor">
+      <button class="profile-avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image class="profile-avatar" src="{{form.avatar || '/static/app_icon.png'}}" mode="aspectFill" />
+      </button>
+      <input
+        class="profile-nickname-input"
+        type="nickname"
+        maxlength="16"
+        placeholder="请输入昵称"
+        value="{{form.nickname}}"
+        bind:input="onNicknameInput"
+      />
+    </view>
+
+    <view class="profile-school-wrap">
+      <input
+        class="profile-school-input"
+        maxlength="64"
+        placeholder="搜索并选择学校"
+        value="{{schoolKeyword}}"
+        bind:input="onSchoolInput"
+        bind:blur="onSchoolBlur"
+      />
+      <view wx:if="{{selectedSchool && selectedSchool.name}}" class="selected-school-card">
+        <view class="selected-school-card__title">已选择：{{selectedSchool.name}}</view>
+        <view wx:if="{{selectedSchool.locationText}}" class="selected-school-card__meta">{{selectedSchool.locationText}}</view>
+        <view wx:if="{{selectedSchool.address}}" class="selected-school-card__meta">{{selectedSchool.address}}</view>
+      </view>
+      <view wx:if="{{schoolOptions.length > 0}}" class="school-options">
+        <view
+          wx:for="{{schoolOptions}}"
+          wx:key="id"
+          class="school-option-item"
+          data-school="{{item}}"
+          bindtap="onSelectSchool"
+        >
+          <view class="school-option-item__title">{{item.name}}</view>
+          <view wx:if="{{item.locationText || item.address}}" class="school-option-item__meta">{{item.locationText}}{{item.locationText && item.address ? ' · ' : ''}}{{item.address}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="profile-counter">{{form.nickname.length || 0}}/16</view>
+    <van-button
+      class="profile-save-btn"
+      type="primary"
+      block
+      loading="{{saving}}"
+      disabled="{{saving}}"
+      bind:click="save"
+    >保存资料</van-button>
+  </view>
+  <app-footer />
+
+</view>

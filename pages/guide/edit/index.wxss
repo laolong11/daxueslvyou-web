@@ -1,0 +1,9 @@
+.upload-row {
+  padding: 16rpx 0 22rpx;
+}
+
+.upload-label {
+  font-size: 26rpx;
+  color: #323233;
+  margin-bottom: 8rpx;
+}

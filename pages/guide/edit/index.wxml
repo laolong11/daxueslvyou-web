@@ -1,0 +1,20 @@
+<page-meta page-style="{{showArea ? 'overflow: hidden;' : ''}}" />
+<view class="layout-page page-with-tabbar">
+  <view class="layout-card">
+    <van-field label="标题" maxlength="20" placeholder="请输入攻略标题" value="{{form.title}}" bind:input="onTitleInput" />
+    <van-cell is-link title="目的地" value="{{form.destination || '请选择省市区'}}" bind:click="openArea" />
+    <van-field label="路线" maxlength="500" placeholder="例如 广州塔 -> 沙面 -> 永庆坊" value="{{form.route}}" bind:input="onRouteInput" />
+    <van-field label="内容" type="textarea" autosize maxlength="500" placeholder="请输入景点介绍、交通建议和游玩心得" value="{{form.summary}}" bind:input="onSummaryInput" />
+    <view class="upload-row">
+      <view class="upload-label">攻略图片</view>
+      <van-uploader image-fit="aspectFill" file-list="{{fileList}}" multiple max-count="5" bind:after-read="onAfterRead" bind:delete="onDelete" />
+    </view>
+    <van-button type="primary" block loading="{{saving}}" disabled="{{saving}}" bind:click="submit">保存并发布</van-button>
+  </view>
+
+  <van-popup show="{{showArea}}" position="bottom" bind:close="closeArea">
+    <van-area area-list="{{areaList}}" bind:confirm="onAreaConfirm" bind:cancel="closeArea" />
+  </van-popup>
+
+  <app-footer />
+</view>

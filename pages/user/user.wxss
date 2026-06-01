@@ -1,0 +1,70 @@
+.user-skeleton {
+	pointer-events: none;
+}
+
+.user-skeleton__avatar,
+.user-skeleton__line {
+	background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 45%, #e2e8f0 65%);
+	background-size: 220% 100%;
+	animation: userShimmer 1.4s ease-in-out infinite;
+}
+
+.user-skeleton__avatar {
+	width: 140rpx;
+	height: 140rpx;
+	margin: 0 auto;
+	border-radius: 50%;
+}
+
+.user-skeleton__line {
+	height: 24rpx;
+	margin: 16rpx auto 0;
+	border-radius: 12rpx;
+	width: 84%;
+}
+
+.user-skeleton__line--name {
+	width: 40%;
+	height: 34rpx;
+}
+
+.user-skeleton__line--short {
+	width: 60%;
+}
+
+.user-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.user-card__avatar {
+	width: 140rpx;
+	height: 140rpx;
+	border-radius: 50%;
+}
+
+.user-card__name {
+	margin-top: 20rpx;
+	font-size: 34rpx;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.user-card__meta {
+	margin-top: 12rpx;
+	font-size: 24rpx;
+	line-height: 1.6;
+	color: #64748b;
+}
+
+@keyframes userShimmer {
+	0% {
+		background-position: 100% 0;
+	}
+
+	100% {
+		background-position: -100% 0;
+	}
+}

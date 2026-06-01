@@ -1,0 +1,94 @@
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-title {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.nav-bell {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.skeleton-card {
+  pointer-events: none;
+}
+
+.sk-line,
+.sk-pill {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 45%, #e2e8f0 65%);
+  background-size: 220% 100%;
+  animation: skShimmer 1.4s ease-in-out infinite;
+}
+
+.sk-line {
+  height: 24rpx;
+  border-radius: 12rpx;
+}
+
+.sk-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sk-title {
+  width: 62%;
+}
+
+.sk-pill {
+  width: 92rpx;
+  height: 36rpx;
+  border-radius: 999rpx;
+}
+
+.sk-desc {
+  margin-top: 12rpx;
+  width: 94%;
+}
+
+.sk-desc--short {
+  width: 66%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tag-row {
+  display: flex;
+  gap: 8rpx;
+}
+
+.title {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.desc {
+  margin-top: 8rpx;
+  color: #475569;
+}
+
+@keyframes skShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}

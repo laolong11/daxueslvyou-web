@@ -1,0 +1,12 @@
+<van-sticky offset-top="-2" z-index="30">
+
+    <van-search
+      placeholder="搜索拼团/攻略"
+      clearable
+      readonly
+      bind:focus="openSearchPage"
+      bind:click-input="openSearchPage"
+      bind:search="openSearchPage"
+    />
+
+</van-sticky>

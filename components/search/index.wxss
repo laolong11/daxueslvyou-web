@@ -1,0 +1,5 @@
+.search-card {
+	margin-top: 0;
+	margin-bottom: 16rpx;
+	padding: 12rpx 18rpx;
+}

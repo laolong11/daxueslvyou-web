@@ -1,0 +1,100 @@
+<page-meta page-style="{{ showGuideArea || showGroupArea ? 'overflow: hidden;' : '' }}" />
+<view class="layout-page page-with-tabbar add-page">
+  <view class="add-page__hero">
+    <view class="add-page__eyebrow">发布中心</view>
+    <view class="add-page__title">发布拼团或攻略</view>
+
+  </view>
+
+  <view wx:if="{{pageLoading}}" class="add-skeleton-list">
+    <view class="layout-card add-skeleton-card" wx:for="{{skeletonItems}}" wx:key="index">
+      <view class="sk-line sk-tab"></view>
+      <view class="sk-line sk-field"></view>
+      <view class="sk-line sk-field"></view>
+      <view class="sk-line sk-field"></view>
+      <view class="sk-line sk-field"></view>
+      <view class="sk-block sk-upload"></view>
+      <view class="sk-line sk-submit"></view>
+    </view>
+  </view>
+
+  <view wx:else class="layout-card add-page__tabs-card">
+    <van-tabs active="{{activeTab}}" color="#0f766e" line-width="48" bind:change="onTabChange">
+      <van-tab title="发布拼团">
+        <view class="publish-form">
+          <van-cell is-link title="目的地" value="{{groupForm.destination || '请选择省市区'}}" data-target="group"
+            bind:click="openArea" />
+          <van-cell is-link title="出发日期" value="{{groupForm.date || '请选择日期'}}" bind:click="openGroupCalendar" />
+          <van-cell is-link title="出发时间" value="{{groupForm.departureTime || '请选择时间'}}"
+            bind:click="openDeparturePopup" />
+          <van-cell is-link title="截止时间" value="{{groupForm.expireAt || '请选择截止时间'}}" bind:click="openExpirePopup" />
+          <van-cell title="人数">
+            <van-stepper theme="round" value="{{groupForm.maxPeople}}" min="2" max="20"
+              bind:change="onGroupPeopleChange" />
+          </van-cell>
+          <van-field label="联系方式" maxlength="64" placeholder="例如 微信号 / QQ / 手机号" value="{{groupForm.contact}}"
+            bind:input="onGroupContactInput" />
+          <van-field label="行程" type="textarea" autosize maxlength="500" placeholder="请输入集合点、行程安排、费用说明" value="{{groupForm.plan}}"
+            bind:input="onGroupPlanInput" />
+          <view class="upload-row">
+            <view class="upload-label">拼团图片</view>
+            <view class="upload-tip">建议上传 1-5 张图片，优先展示路线亮点与集合地点。</view>
+            <van-uploader image-fit="aspectFill" file-list="{{groupFileList}}" multiple max-count="5"
+              data-target="group" bind:after-read="onAfterRead" bind:delete="onDelete" />
+          </view>
+          <van-button class="submit-btn" type="primary" block loading="{{submittingGroup}}" disabled="{{submittingGroup}}"
+            bind:click="submitGroup">确认发布拼团</van-button>
+        </view>
+      </van-tab>
+
+      <van-tab title="发布攻略">
+        <view class="publish-form">
+          <van-field label="标题" maxlength="20" placeholder="请输入攻略标题" value="{{guideForm.title}}" bind:input="onGuideTitleInput" />
+          <van-cell is-link title="目的地" value="{{guideForm.destination || '请选择省市区'}}" data-target="guide"
+            bind:click="openArea" />
+          <van-cell is-link title="日期" value="{{guideForm.travelDate || '请选择游玩日期'}}" bind:click="openGuideCalendar" />
+          <van-cell title="游玩天数">
+            <van-stepper theme="round" disabled-input="true" value="{{guideForm.days}}" min="1" max="365"
+              bind:change="onGuideDaysChange" />
+          </van-cell>
+          <van-field label="路线" maxlength="500" placeholder="例如 广州塔 -> 沙面 -> 永庆坊" value="{{guideForm.route}}"
+            bind:input="onGuideRouteInput" />
+          <van-field label="内容" type="textarea" autosize maxlength="500" placeholder="请输入景点介绍、交通建议和游玩心得" value="{{guideForm.summary}}"
+            bind:input="onGuideSummaryInput" />
+          <view class="upload-row">
+            <view class="upload-label">攻略图片</view>
+            <view class="upload-tip">建议上传路线实拍、景点照片或票务截图，最多 5 张。</view>
+            <van-uploader image-fit="aspectFill" file-list="{{guideFileList}}" multiple max-count="5"
+              data-target="guide" bind:after-read="onAfterRead" bind:delete="onDelete" />
+          </view>
+          <van-button class="submit-btn" type="primary" block loading="{{submittingGuide}}" disabled="{{submittingGuide}}"
+            bind:click="submitGuide">确认发布攻略</van-button>
+        </view>
+      </van-tab>
+    </van-tabs>
+  </view>
+
+  <van-popup show="{{showGroupArea}}" position="bottom" data-target="group" bind:close="closeArea">
+    <van-area area-list="{{areaList}}" data-target="group" bind:confirm="onAreaConfirm" bind:cancel="closeArea" />
+  </van-popup>
+  <van-popup show="{{showGuideArea}}" position="bottom" data-target="guide" bind:close="closeArea">
+    <van-area area-list="{{areaList}}" data-target="guide" bind:confirm="onAreaConfirm" bind:cancel="closeArea" />
+  </van-popup>
+
+  <van-calendar switch-mode="year-month" min-date="{{guideForm.minDate}}" max-date="{{guideForm.maxDate}}"
+    show="{{showGuideCalendar}}" bind:close="closeGuideCalendar" bind:confirm="onGuideCalendarConfirm" />
+  <van-calendar show="{{showGroupCalendar}}" min-date="{{groupMinDate}}" max-date="{{groupMaxDate}}"
+    bind:close="closeGroupCalendar" bind:confirm="onGroupCalendarConfirm" />
+
+  <van-popup show="{{showDeparturePicker}}" position="bottom" bind:close="closeDeparturePopup">
+    <van-datetime-picker type="time" value="{{departurePickerValue}}" bind:confirm="onDepartureConfirm"
+      bind:cancel="closeDeparturePopup" />
+  </van-popup>
+
+  <van-popup show="{{showExpirePicker}}" position="bottom" bind:close="closeExpirePopup">
+    <van-datetime-picker type="datetime" value="{{expireTimestamp}}" min-date="{{expireMinTimestamp}}"
+      max-date="{{expireMaxTimestamp}}" bind:confirm="onExpireConfirm" bind:cancel="closeExpirePopup" />
+  </van-popup>
+
+  <app-footer />
+</view>

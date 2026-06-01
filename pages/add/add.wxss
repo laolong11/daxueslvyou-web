@@ -1,0 +1,136 @@
+.add-page {
+	padding-bottom: 36rpx;
+	background:
+		radial-gradient(circle at top left, rgba(15, 118, 110, 0.12), transparent 32%),
+		linear-gradient(180deg, #f8fffe 0%, #f8fafc 36%, #f8fafc 100%);
+}
+
+.add-page__hero {
+	margin: 12rpx 16rpx 18rpx;
+	padding: 28rpx;
+	border-radius: 28rpx;
+	background: linear-gradient(135deg, #0f766e, #0ea5e9);
+	color: #ffffff;
+	box-shadow: 0 18rpx 40rpx rgba(15, 118, 110, 0.18);
+}
+
+.add-page__eyebrow {
+	font-size: 22rpx;
+	opacity: 0.88;
+	letter-spacing: 4rpx;
+}
+
+.add-page__title {
+	margin-top: 10rpx;
+	font-size: 40rpx;
+	font-weight: 700;
+}
+
+.add-page__desc {
+	margin-top: 12rpx;
+	font-size: 25rpx;
+	line-height: 1.7;
+	opacity: 0.92;
+}
+
+.add-page__tabs-card {
+	overflow: hidden;
+}
+
+.add-skeleton-list {
+	padding: 0 16rpx;
+	display: flex;
+	flex-direction: column;
+	gap: 16rpx;
+}
+
+.add-skeleton-card {
+	padding: 20rpx;
+}
+
+.sk-block,
+.sk-line {
+	background: linear-gradient(90deg, #dbeafe 25%, #eff6ff 45%, #dbeafe 65%);
+	background-size: 220% 100%;
+	animation: skShimmer 1.4s ease-in-out infinite;
+	border-radius: 12rpx;
+}
+
+.sk-line {
+	height: 24rpx;
+	margin-top: 14rpx;
+}
+
+.sk-tab {
+	width: 44%;
+	height: 32rpx;
+	margin-top: 0;
+}
+
+.sk-field {
+	width: 92%;
+}
+
+.sk-upload {
+	margin-top: 14rpx;
+	height: 180rpx;
+	border-radius: 14rpx;
+}
+
+.sk-submit {
+	margin-top: 18rpx;
+	height: 72rpx;
+	border-radius: 999rpx;
+	width: 100%;
+}
+
+.publish-form {
+	padding-top: 8rpx;
+}
+
+.stepper-row {
+	padding: 18rpx 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.stepper-label {
+	color: #323233;
+	font-size: 28rpx;
+}
+
+.upload-row {
+	padding: 18rpx 0 24rpx;
+}
+
+.upload-label {
+	font-size: 26rpx;
+	color: #323233;
+	margin-bottom: 8rpx;
+}
+
+.upload-tip {
+	margin-bottom: 12rpx;
+	color: #64748b;
+	font-size: 23rpx;
+	line-height: 1.6;
+}
+
+.submit-btn {
+	--van-button-primary-background: linear-gradient(120deg, #0f766e, #0284c7);
+	--van-button-primary-border-color: transparent;
+	--van-button-border-radius: 999rpx;
+	height: 88rpx;
+	line-height: 88rpx;
+}
+
+@keyframes skShimmer {
+	0% {
+		background-position: 100% 0;
+	}
+
+	100% {
+		background-position: -100% 0;
+	}
+}

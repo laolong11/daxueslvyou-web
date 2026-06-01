@@ -1,0 +1,10 @@
+<view class="layout-page redirect-page">
+  <view class="layout-card redirect-card">
+    <view class="redirect-title">正在跳转到发布中心</view>
+    <view class="redirect-desc">即将切换到“发布攻略”标签页。</view>
+    <view wx:if="{{redirecting}}" class="redirect-loading">跳转中，请稍候...</view>
+    <van-button wx:if="{{!redirecting}}" class="redirect-btn" type="primary" block bind:click="onLoad">
+      重新跳转
+    </van-button>
+  </view>
+</view>

@@ -1,0 +1,20 @@
+<view class="loading-page">
+  <view class="loading-card">
+    <view class="loading-circle-wrap">
+      <van-circle
+        value="{{progress}}"
+        size="124"
+        layer-color="#dbeafe"
+        color="#2563eb"
+        stroke-width="8"
+        speed="100"
+        text="{{progress}}%"
+      />
+      <image class="loading-icon" src="/static/app_icon.png" mode="aspectFill" />
+    </view>
+    <view class="loading-title">大学旅游拼团</view>
+    <view class="loading-badge">启动中</view>
+    <view class="loading-sub">{{progressText}}</view>
+  </view>
+  <app-footer />
+</view>

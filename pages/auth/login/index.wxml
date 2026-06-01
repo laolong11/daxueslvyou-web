@@ -1,0 +1,38 @@
+<view class="login-screen">
+  <view class="login-brand">
+    <image class="brand-logo" src="/static/app_icon.png" mode="aspectFill" />
+    <view class="brand-title">旅游拼团及攻略共享</view>
+    <view class="brand-sub">结伴出行，轻松找搭子</view>
+  </view>
+
+  <view class="login-panel">
+    <view class="login-tip-card">
+      <view class="login-tip-title">快捷登录</view>
+      <view class="login-tip-sub">登录后可在个人中心完善头像、昵称等资料</view>
+    </view>
+
+    <checkbox-group bindchange="onAgreeChange">
+      <label class="agree-row">
+        <checkbox value="agree" class="agree-checkbox" checked="{{agreed}}" />
+        <view class="agree-text-wrap">
+          <text>我已阅读并同意</text>
+          <navigator class="agree-link" url="/pages/legal/user-agreement/index">《用户协议》</navigator>
+          <text>和</text>
+          <navigator class="agree-link" url="/pages/legal/privacy-policy/index">《隐私协议》</navigator>
+        </view>
+      </label>
+    </checkbox-group>
+    <view class="agree-tip">登录即表示你已同意平台规则与隐私处理方式</view>
+    <van-button class="skip-btn" size="normal" plain type="default" block bind:click="cancel" loading="{{loading}}"
+      disabled="{{loading}}">
+      先逛一逛
+    </van-button>
+    <van-button class="login-btn" size="normal" type="primary" block round
+      bind:click="wechatLogin" loading="{{loading}}" disabled="{{loading}}">
+      微信登录
+    </van-button>
+  </view>
+
+  <view class="safe-bottom"></view>
+
+</view>

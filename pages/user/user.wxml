@@ -1,0 +1,18 @@
+<view class="layout-page">
+	<view wx:if="{{loading}}" class="layout-card user-skeleton">
+		<view class="user-skeleton__avatar"></view>
+		<view class="user-skeleton__line user-skeleton__line--name"></view>
+		<view class="user-skeleton__line"></view>
+		<view class="user-skeleton__line user-skeleton__line--short"></view>
+	</view>
+	<view wx:elif="{{user}}" class="layout-card user-card">
+		<image class="user-card__avatar" src="{{user.avatar || '/static/app_icon.png'}}" mode="aspectFill" />
+		<view class="user-card__name">{{user.nickname || '用户'}}</view>
+		<view class="user-card__meta">学校：{{user.schoolText || '未填写'}}</view>
+		<view wx:if="{{user.createdAt}}" class="user-card__meta">注册时间：{{user.createdAt}}</view>
+		<view wx:if="{{user.updatedAt}}" class="user-card__meta">更新时间：{{user.updatedAt}}</view>
+	</view>
+	<van-empty wx:else description="用户不存在或已不可见" />
+
+	<app-footer />
+</view>
